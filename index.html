@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Processing Tool</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 300px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+            font-family: monospace;
+        }
+        .button-group {
+            text-align: center;
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .format-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .minify-btn {
+            background-color: #2196F3;
+            color: white;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        .error {
+            color: #f44336;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>JSON Processing Tool</h1>
+        <div class="input-group">
+            <textarea id="jsonInput" placeholder="Please enter JSON data..."></textarea>
+            <div id="errorMsg" class="error"></div>
+        </div>
+        <div class="button-group">
+            <button class="format-btn" onclick="formatJSON()">Format</button>
+            <button class="minify-btn" onclick="minifyJSON()">Minify</button>
+        </div>
+    </div>
+
+    <script>
+        function formatJSON() {
+            try {
+                const input = $('#jsonInput').val();
+                if (!input.trim()) {
+                    showError('Please enter JSON data');
+                    return;
+                }
+                
+                // Parse JSON to validate format
+                const obj = JSON.parse(input);
+                // Format JSON with 2-space indentation
+                const formatted = JSON.stringify(obj, null, 2);
+                $('#jsonInput').val(formatted);
+                hideError();
+            } catch (e) {
+                showError('Invalid JSON format: ' + e.message);
+            }
+        }
+
+        function minifyJSON() {
+            try {
+                const input = $('#jsonInput').val();
+                if (!input.trim()) {
+                    showError('Please enter JSON data');
+                    return;
+                }
+                
+                // Parse JSON to validate format
+                const obj = JSON.parse(input);
+                // Minify JSON by removing all whitespace
+                const minified = JSON.stringify(obj);
+                $('#jsonInput').val(minified);
+                hideError();
+            } catch (e) {
+                showError('Invalid JSON format: ' + e.message);
+            }
+        }
+
+        function showError(message) {
+            $('#errorMsg').text(message).show();
+        }
+
+        function hideError() {
+            $('#errorMsg').hide();
+        }
+    </script>
+</body>
+</html> 
